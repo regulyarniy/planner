@@ -1,0 +1,21 @@
+.element {
+  background-color: $color-grey;
+  background-image: url("../server.svg");
+  background-size: 55%;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: none;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  position: relative;
+  margin-right: 75px;
+
+  & span {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    bottom: -18px;
+    font-size: 14px;
+  }
+}
