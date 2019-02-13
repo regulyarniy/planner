@@ -10,6 +10,15 @@
   height: 80px;
   position: relative;
   margin-right: 75px;
+  cursor: move;
+  transition: all 0.3s ease;
+  outline: none;
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: $color-hover;
+  }
 
   & span {
     position: absolute;
