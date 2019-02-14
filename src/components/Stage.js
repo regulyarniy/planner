@@ -6,6 +6,14 @@ import {ElementType} from "../constants";
 import Store from "../Store";
 
 class Stage extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isCollapsed: true
+    };
+    this.handleCollapse = this.handleCollapse.bind(this);
+  }
+
   get steps() {
     const {steps} = this.context;
     const {items} = this.props;
@@ -19,15 +27,28 @@ class Stage extends PureComponent {
       />]
     ), [])
   }
+
   render() {
     const {name, time, employee, items, id} = this.props;
+    const {isCollapsed} = this.state;
     return (
-      <section className="stage process__stage">
-        <StageInfo name={name} time={time} employee={employee} items={items}/>
+      <section className={`stage ${isCollapsed ? `stage--collapsed` : ``} process__stage`}>
+        <StageInfo
+          name={name}
+          time={time}
+          employee={employee}
+          items={items}
+          isCollapsed={isCollapsed}
+          onCollapse={this.handleCollapse}
+        />
         {this.steps}
         {items.length < 3 ? <AddItem type={ElementType.STEP} parentKey={id}/> : null}
       </section>
     )
+  }
+
+  handleCollapse() {
+    this.setState({isCollapsed: !this.state.isCollapsed})
   }
 }
 

@@ -6,6 +6,10 @@
   justify-content: flex-start;
   flex-wrap: wrap;
   margin-bottom: 10px;
+
+  &--collapsed .step {
+    display: none;
+  }
 }
 
 .stage__info {

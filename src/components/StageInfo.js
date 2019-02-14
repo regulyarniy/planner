@@ -18,11 +18,17 @@ class StageInfo extends PureComponent {
       ]
     ), [])
   }
+
   render() {
-    const {name, time} = this.props;
+    const {name, time, isCollapsed, onCollapse} = this.props;
     return (
       <header className="stage__info">
-        <button className="stage__collapse stage__collapse--closed" type="button" title="Свернуть\Развернуть"/>
+        <button
+          className={`stage__collapse ${isCollapsed ? `stage__collapse--closed` : ``}`}
+          type="button"
+          title="Свернуть\Развернуть"
+          onClick={onCollapse}
+        />
         <div className="stage__row">
           <h2 className="stage__title" title={name}>{name}</h2>
           <p className="stage__time">
