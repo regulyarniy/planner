@@ -19,12 +19,12 @@ class Stage extends PureComponent {
     ), [])
   }
   render() {
-    const {name, time, employee, items} = this.props;
+    const {name, time, employee, items, id} = this.props;
     return (
       <section className="stage process__stage">
         <StageInfo name={name} time={time} employee={employee} items={items}/>
         {this.steps}
-        {items.length < 3 ? <AddItem type={ElementType.STEP}/> : null}
+        {items.length < 3 ? <AddItem type={ElementType.STEP} parentKey={id}/> : null}
       </section>
     )
   }

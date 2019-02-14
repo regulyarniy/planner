@@ -4,10 +4,10 @@ import {withRouter} from "react-router-dom";
 
 class AddItem extends PureComponent {
   render() {
-    const {type, history} = this.props;
+    const {type, history, parentKey} = this.props;
     const {STAGE, STEP, STAGE__ROUTE, STEP_ROUTE} = ElementType;
     const isStage = type === STAGE;
-    const onAdd = isStage ? () => history.push(`/add/${STAGE__ROUTE}`) : () => history.push(`/add/${STEP_ROUTE}`);
+    const onAdd = isStage ? () => history.push(`/add/${STAGE__ROUTE}`) : () => history.push(`/add/${STEP_ROUTE}/${parentKey}`);
     return (
       <footer className="add-item">
         <h2 className="visually-hidden">Добавление {isStage ? `${STAGE}а` : `${STEP}а`}</h2>

@@ -44,11 +44,11 @@
   padding: 5px;
   font-size: 14px;
   line-height: 16px;
-  border: none;
   position: relative;
+  border: 1px solid $color-jade;
 
   &:invalid {
-    border: 2px dashed red;
+    border: 1px dashed red;
   }
 }
 

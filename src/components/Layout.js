@@ -4,10 +4,11 @@ import Store from "../Store";
 
 class Layout extends PureComponent {
   get stages() {
-    const {list, stages} = this.context;
-    return list.reduce((stagesList, stageKey) => stagesList.concat(
+    const {listOfStages, stages} = this.context;
+    return listOfStages.reduce((stagesList, stageKey) => stagesList.concat(
       [<Stage
         key={stageKey}
+        id={stageKey}
         name={stages[stageKey].name}
         employee={stages[stageKey].employee}
         time={stages[stageKey].time}
