@@ -7,6 +7,7 @@ import AddItem from "./components/AddItem";
 import {ElementType} from "./constants";
 import Store from "./Store";
 import uuid from "uuid/v4";
+import {clone} from "./helpers/utils";
 
 class App extends Component {
   constructor(props) {
@@ -21,7 +22,8 @@ class App extends Component {
       saveState: this.saveState.bind(this),
       addStage: this.addStage.bind(this),
       addStep: this.addStep.bind(this),
-      addItem: this.addItem.bind(this)
+      addItem: this.addItem.bind(this),
+      deleteItem: this.deleteItem.bind(this)
     }
   }
 
@@ -57,7 +59,7 @@ class App extends Component {
   }
 
   addStage(data) {
-    const newStages = JSON.parse(JSON.stringify(this.state.stages));
+    const newStages = clone(this.state.stages);
     const newKey = uuid();
     newStages[newKey] = Object.assign({}, data, {items: []});
     const newListOfStages = this.state.listOfStages.slice();
@@ -66,26 +68,37 @@ class App extends Component {
   }
 
   addStep(data, stageKey) {
-    const newSteps = JSON.parse(JSON.stringify(this.state.steps));
+    const newSteps = clone(this.state.steps);
     const newKey = uuid();
     newSteps[newKey] = Object.assign({}, data, {items: []});
     const newItems = this.state.stages[stageKey].items.slice();
     newItems.push(newKey);
-    const newStages = JSON.parse(JSON.stringify(this.state.stages));
+    const newStages = clone(this.state.stages);
     newStages[stageKey].items = newItems;
     this.setState({stages: newStages, steps: newSteps});
   }
 
   addItem(data, stepKey) {
-    const newElements = JSON.parse(JSON.stringify(this.state.elements));
+    const newElements = clone(this.state.elements);
     const newKey = uuid();
     newElements[newKey] = data;
     const newItems = this.state.steps[stepKey].items.slice();
     newItems.push(newKey);
-    const newSteps = JSON.parse(JSON.stringify(this.state.steps));
+    const newSteps = clone(this.state.steps);
     newSteps[stepKey].items = newItems;
     this.setState({steps: newSteps, elements: newElements});
   }
+
+  deleteItem(stepKey, itemKey) {
+    const newElements = clone(this.state.elements);
+    delete newElements[itemKey];
+    const newItems = this.state.steps[stepKey].items.slice();
+    newItems.splice(newItems.indexOf(itemKey), 1);
+    const newSteps = clone(this.state.steps);
+    newSteps[stepKey].items = newItems;
+    this.setState({steps: newSteps, elements: newElements});
+  }
+
 }
 
 export default App;

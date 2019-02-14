@@ -16,14 +16,20 @@ class Step extends Component {
     );
     const listItems = items.reduce((elementsList, elementKey) => elementsList.concat(
       [
-        <button
-          key={elementKey}
-          className="element step__element"
-          type="button"
-          title={elements[elementKey].name}
-        >
-          <span>{elements[elementKey].name}</span>
-        </button>
+        <div className="step__item" key={elementKey}>
+          <button
+            className="element step__element"
+            type="button"
+            title={elements[elementKey].name}
+          >
+            <span>{elements[elementKey].name}</span>
+          </button>
+          <button
+            className="step__delete-element"
+            title="Удалить"
+            onClick={() => this.context.deleteItem(id, elementKey)}
+          />
+        </div>
       ]
     ), []);
     switch (items.length) {
