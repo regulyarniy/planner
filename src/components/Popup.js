@@ -10,9 +10,22 @@ class Popup extends PureComponent {
       employee: ``,
       time: ``
     };
-    const {STAGE__ROUTE, STAGE, STEP} = ElementType;
-    this.type = this.props.match.params.type === STAGE__ROUTE ? STAGE : STEP;
+
     this.handleClose = this.handleClose.bind(this);
+  }
+
+  get type() {
+    const {STAGE__ROUTE, STEP_ROUTE, ITEM_ROUTE, ITEM, STAGE, STEP} = ElementType;
+    switch (this.props.match.params.type) {
+      case STAGE__ROUTE:
+        return STAGE;
+      case STEP_ROUTE:
+        return STEP;
+      case ITEM_ROUTE:
+        return ITEM;
+      default:
+        return null;
+    }
   }
 
   render() {
@@ -83,10 +96,17 @@ class Popup extends PureComponent {
     } else {
       evt.preventDefault();
       const {name, employee, time} = this.state;
-      if (this.type === ElementType.STAGE) {
-        this.context.addStage({name, employee, time});
-      } else {
-        this.context.addStep({name, employee, time}, this.props.match.params.parentKey);
+      const {STAGE, STEP, ITEM} = ElementType;
+      switch (this.type) {
+        case STAGE:
+          this.context.addStage({name, employee, time});
+          break;
+        case STEP:
+          this.context.addStep({name, employee, time}, this.props.match.params.parentKey);
+          break;
+        case ITEM:
+          this.context.addItem({name, employee, time}, this.props.match.params.parentKey);
+          break;
       }
       this.props.history.push(`/`);
     }

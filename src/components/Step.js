@@ -1,11 +1,20 @@
-import React, {PureComponent} from "react";
+import React, {Component} from "react";
 import Store from "../Store";
+import {withRouter} from "react-router-dom";
+import {ElementType} from "../constants";
 
-class Step extends PureComponent {
+class Step extends Component {
   get elements() {
     const {elements} = this.context;
-    const {items} = this.props;
-    return items.reduce((elementsList, elementKey) => elementsList.concat(
+    const {items, id, history} = this.props;
+    const addButton = (
+      <button
+        key={`add`}
+        className="element element--add step__element"
+        onClick={() => history.push(`/add/${ElementType.ITEM_ROUTE}/${id}`)}
+      />
+    );
+    const listItems = items.reduce((elementsList, elementKey) => elementsList.concat(
       [
         <button
           key={elementKey}
@@ -16,7 +25,19 @@ class Step extends PureComponent {
           <span>{elements[elementKey].name}</span>
         </button>
       ]
-    ), [])
+    ), []);
+    switch (items.length) {
+      case 0:
+        return [addButton];
+      case 1:
+      case 2:
+        return [...listItems, addButton];
+      case 3:
+        return [...listItems];
+      default:
+        return null;
+    }
+
   }
 
   render() {
@@ -34,6 +55,6 @@ class Step extends PureComponent {
   }
 }
 
-Step.contextType = Store;
+export default withRouter(Step);
 
-export default Step;
+Step.contextType = Store; // set context type after export because issue https://github.com/facebook/react/issues/14061

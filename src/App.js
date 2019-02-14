@@ -20,7 +20,8 @@ class App extends Component {
     this.api = {
       saveState: this.saveState.bind(this),
       addStage: this.addStage.bind(this),
-      addStep: this.addStep.bind(this)
+      addStep: this.addStep.bind(this),
+      addItem: this.addItem.bind(this)
     }
   }
 
@@ -73,6 +74,17 @@ class App extends Component {
     const newStages = JSON.parse(JSON.stringify(this.state.stages));
     newStages[stageKey].items = newItems;
     this.setState({stages: newStages, steps: newSteps});
+  }
+
+  addItem(data, stepKey) {
+    const newElements = JSON.parse(JSON.stringify(this.state.elements));
+    const newKey = uuid();
+    newElements[newKey] = data;
+    const newItems = this.state.steps[stepKey].items.slice();
+    newItems.push(newKey);
+    const newSteps = JSON.parse(JSON.stringify(this.state.steps));
+    newSteps[stepKey].items = newItems;
+    this.setState({steps: newSteps, elements: newElements});
   }
 }
 

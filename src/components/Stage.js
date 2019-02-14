@@ -12,6 +12,7 @@ class Stage extends PureComponent {
     return items.reduce((stepsList, stepKey) => stepsList.concat(
       [<Step
         key={stepKey}
+        id={stepKey}
         name={steps[stepKey].name}
         time={steps[stepKey].time}
         items={steps[stepKey].items}

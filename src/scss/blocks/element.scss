@@ -1,6 +1,6 @@
 .element {
   background-color: $color-grey;
-  background-image: url("../server.svg");
+  background-image: url("../img/server.svg");
   background-size: 55%;
   background-position: center;
   background-repeat: no-repeat;
@@ -13,6 +13,10 @@
   cursor: move;
   transition: all 0.3s ease;
   outline: none;
+
+  &--add {
+    background-image: url("../img/add.svg");
+  }
 
   &:hover,
   &:focus,
