@@ -1,4 +1,6 @@
 export const ElementType = {
   STAGE: `этап`,
-  STEP: `шаг`
+  STEP: `шаг`,
+  STAGE__ROUTE: `stage`,
+  STEP_ROUTE: `step`
 };
