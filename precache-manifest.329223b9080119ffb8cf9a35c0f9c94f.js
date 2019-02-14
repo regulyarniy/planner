@@ -12,23 +12,27 @@ self.__precacheManifest = [
     "url": "/planner/static/media/roboto.0f7fb3f8.woff"
   },
   {
+    "revision": "aadeac2bf0723f420059d132997317d6",
+    "url": "/planner/static/media/add.aadeac2b.svg"
+  },
+  {
     "revision": "c55ce7e563951c101c02",
     "url": "/planner/static/js/runtime~main.c55ce7e5.js"
   },
   {
-    "revision": "2c03002e18adc602fe6a",
-    "url": "/planner/static/js/main.2c03002e.chunk.js"
+    "revision": "2bd8194bbd9e3cc03db4",
+    "url": "/planner/static/js/main.2bd8194b.chunk.js"
   },
   {
-    "revision": "3f7eed0c4b3c04f90489",
-    "url": "/planner/static/js/2.3f7eed0c.chunk.js"
+    "revision": "2ffce7e11cbe993bacf9",
+    "url": "/planner/static/js/2.2ffce7e1.chunk.js"
   },
   {
-    "revision": "2c03002e18adc602fe6a",
-    "url": "/planner/static/css/main.6043fb74.chunk.css"
+    "revision": "2bd8194bbd9e3cc03db4",
+    "url": "/planner/static/css/main.68b3efb5.chunk.css"
   },
   {
-    "revision": "0071ff9247121ef9581ce91732d0e803",
+    "revision": "cf05092e71ed1c2b0e1d072d09baa00d",
     "url": "/planner/index.html"
   }
 ];
