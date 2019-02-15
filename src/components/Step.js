@@ -21,6 +21,7 @@ class Step extends Component {
             className="element step__element"
             type="button"
             title={elements[elementKey].name}
+            onClick={() => history.push(`/edit/${ElementType.ITEM_ROUTE}/${elementKey}`)}
           >
             <span>{elements[elementKey].name}</span>
           </button>

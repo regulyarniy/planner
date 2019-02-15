@@ -10,7 +10,7 @@ class Popup extends PureComponent {
       employee: ``,
       time: ``
     };
-
+    this.isAdd = this.props.match.url.indexOf(`add`) !== -1;
     this.handleClose = this.handleClose.bind(this);
   }
 
@@ -28,10 +28,31 @@ class Popup extends PureComponent {
     }
   }
 
+  componentDidMount() {
+    if (!this.isAdd) {
+      const getEditingObject = () => {
+        const {STAGE__ROUTE, STEP_ROUTE, ITEM_ROUTE} = ElementType;
+        switch (this.props.match.params.type) {
+          case STAGE__ROUTE:
+            return this.context.stages[this.props.match.params.parentKey];
+          case STEP_ROUTE:
+            return this.context.steps[this.props.match.params.parentKey];
+          case ITEM_ROUTE:
+            return this.context.elements[this.props.match.params.parentKey];
+        }
+      };
+      const editingObject = getEditingObject();
+      this.setState({
+        name: editingObject.name,
+        employee: editingObject.employee,
+        time: editingObject.time
+      });
+    }
+  }
+
   render() {
-    const {match} = this.props;
     const {name, employee, time} = this.state;
-    const action = match.path.indexOf(`add`) !== -1 ? `Создать` : `Редактировать`;
+    const action = this.isAdd ? `Создать` : `Редактировать`;
 
     return (
       <section className="popup">
@@ -97,16 +118,30 @@ class Popup extends PureComponent {
       evt.preventDefault();
       const {name, employee, time} = this.state;
       const {STAGE, STEP, ITEM} = ElementType;
-      switch (this.type) {
-        case STAGE:
-          this.context.addStage({name, employee, time});
-          break;
-        case STEP:
-          this.context.addStep({name, employee, time}, this.props.match.params.parentKey);
-          break;
-        case ITEM:
-          this.context.addItem({name, employee, time}, this.props.match.params.parentKey);
-          break;
+      if (this.isAdd) {
+        switch (this.type) {
+          case STAGE:
+            this.context.addStage({name, employee, time});
+            break;
+          case STEP:
+            this.context.addStep({name, employee, time}, this.props.match.params.parentKey);
+            break;
+          case ITEM:
+            this.context.addItem({name, employee, time}, this.props.match.params.parentKey);
+            break;
+        }
+      } else {
+        switch (this.type) {
+          case STAGE:
+            // this.context.addStage({name, employee, time});
+            break;
+          case STEP:
+            // this.context.addStep({name, employee, time}, this.props.match.params.parentKey);
+            break;
+          case ITEM:
+            this.context.editItem({name, employee, time}, this.props.match.params.parentKey);
+            break;
+        }
       }
       this.props.history.push(`/`);
     }

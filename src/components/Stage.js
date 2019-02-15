@@ -9,7 +9,7 @@ class Stage extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      isCollapsed: true
+      isCollapsed: false
     };
     this.handleCollapse = this.handleCollapse.bind(this);
   }

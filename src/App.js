@@ -25,7 +25,8 @@ class App extends Component {
       addItem: this.addItem.bind(this),
       deleteItem: this.deleteItem.bind(this),
       deleteStep: this.deleteStep.bind(this),
-      deleteStage: this.deleteStage.bind(this)
+      deleteStage: this.deleteStage.bind(this),
+      editItem: this.editItem.bind(this)
     }
   }
 
@@ -43,7 +44,7 @@ class App extends Component {
         <Store.Provider value={Object.assign({}, this.state, this.api)}>
           <Layout/>
           <AddItem type={ElementType.STAGE}/>
-          <Route path="/add/:type/:parentKey?" component={Popup}/>
+          <Route path="/(add|edit)/:type/:parentKey?" component={Popup}/>
         </Store.Provider>
       </Router>
     );
@@ -126,6 +127,12 @@ class App extends Component {
     delete newElements[itemKey];
     newSteps[stepKey].items.splice(newSteps[stepKey].items.indexOf(itemKey), 1);
     this.setState({steps: newSteps, elements: newElements});
+  }
+
+  editItem(data, itemKey) {
+    const newElements = clone(this.state.elements);
+    newElements[itemKey] = Object.assign(newElements[itemKey], data);
+    this.setState({elements: newElements});
   }
 
 }
