@@ -23,7 +23,8 @@ class App extends Component {
       addStage: this.addStage.bind(this),
       addStep: this.addStep.bind(this),
       addItem: this.addItem.bind(this),
-      deleteItem: this.deleteItem.bind(this)
+      deleteItem: this.deleteItem.bind(this),
+      deleteStep: this.deleteStep.bind(this)
     }
   }
 
@@ -64,7 +65,7 @@ class App extends Component {
     newStages[newKey] = Object.assign({}, data, {items: []});
     const newListOfStages = this.state.listOfStages.slice();
     newListOfStages.push(newKey);
-    this.setState({listOfStages: newListOfStages,stages: newStages});
+    this.setState({listOfStages: newListOfStages, stages: newStages});
   }
 
   addStep(data, stageKey) {
@@ -76,6 +77,16 @@ class App extends Component {
     const newStages = clone(this.state.stages);
     newStages[stageKey].items = newItems;
     this.setState({stages: newStages, steps: newSteps});
+  }
+
+  deleteStep(stageKey, stepKey) {
+    const newStages = clone(this.state.stages);
+    const newSteps = clone(this.state.steps);
+    const newElements = clone(this.state.elements);
+    newSteps[stepKey].items.forEach((item) => delete newElements[item]);
+    delete newSteps[stepKey];
+    newStages[stageKey].items.splice(newStages[stageKey].items.indexOf(stepKey), 1);
+    this.setState({stages: newStages, steps: newSteps, elements: newElements});
   }
 
   addItem(data, stepKey) {
@@ -90,12 +101,10 @@ class App extends Component {
   }
 
   deleteItem(stepKey, itemKey) {
+    const newSteps = clone(this.state.steps);
     const newElements = clone(this.state.elements);
     delete newElements[itemKey];
-    const newItems = this.state.steps[stepKey].items.slice();
-    newItems.splice(newItems.indexOf(itemKey), 1);
-    const newSteps = clone(this.state.steps);
-    newSteps[stepKey].items = newItems;
+    newSteps[stepKey].items.splice(newSteps[stepKey].items.indexOf(itemKey), 1);
     this.setState({steps: newSteps, elements: newElements});
   }
 

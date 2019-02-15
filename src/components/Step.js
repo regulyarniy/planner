@@ -47,10 +47,15 @@ class Step extends Component {
   }
 
   render() {
-    const {name, time} = this.props;
+    const {name, time, id, parentID} = this.props;
     return (
       <section className="step stage__step">
         <h3 className="step__title" title={name}>{name}</h3>
+        <button
+          className="step__delete"
+          title="Удалить шаг"
+          onClick={() => this.context.deleteStep(parentID, id)}
+        />
         <p className="step__time">
           <span>Время</span>
           <b>{time}</b>

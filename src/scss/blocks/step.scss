@@ -7,6 +7,10 @@
   padding-top: 20px;
   margin-bottom: 20px;
 
+  &:hover .step__delete {
+    display: block;
+  }
+
   &::before {
     content: "";
     position: absolute;
@@ -15,6 +19,38 @@
     width: 3px;
     height: 20px;
     background-color: $color-grey;
+  }
+}
+
+.step__delete {
+  display: none;
+  position: absolute;
+  top: 50%;
+  right: 40px;
+  transform: translateY(-20px);
+  width: 40px;
+  height: 40px;
+  border: 1px solid red;
+  border-radius: 50%;
+  background: none;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 50%;
+    height: 1px;
+    background-color: red;
+  }
+
+  &::before {
+    transform: translateX(-50%) translateY(-50%) rotate(-45deg);
+  }
+
+  &::after {
+    transform: translateX(-50%) translateY(-50%) rotate(45deg);
   }
 }
 

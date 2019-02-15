@@ -16,11 +16,12 @@ class Stage extends PureComponent {
 
   get steps() {
     const {steps} = this.context;
-    const {items} = this.props;
+    const {items, id} = this.props;
     return items.reduce((stepsList, stepKey) => stepsList.concat(
       [<Step
         key={stepKey}
         id={stepKey}
+        parentID={id}
         name={steps[stepKey].name}
         time={steps[stepKey].time}
         items={steps[stepKey].items}
