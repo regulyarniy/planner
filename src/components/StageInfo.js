@@ -20,7 +20,7 @@ class StageInfo extends PureComponent {
   }
 
   render() {
-    const {name, time, isCollapsed, onCollapse} = this.props;
+    const {name, time, isCollapsed, onCollapse, id} = this.props;
     return (
       <header className="stage__info">
         <button
@@ -28,6 +28,11 @@ class StageInfo extends PureComponent {
           type="button"
           title="Свернуть\Развернуть"
           onClick={onCollapse}
+        />
+        <button
+          className="stage__delete"
+          title="Удалить этап"
+          onClick={() => this.context.deleteStage(id)}
         />
         <div className="stage__row">
           <h2 className="stage__title" title={name}>{name}</h2>

@@ -24,7 +24,8 @@ class App extends Component {
       addStep: this.addStep.bind(this),
       addItem: this.addItem.bind(this),
       deleteItem: this.deleteItem.bind(this),
-      deleteStep: this.deleteStep.bind(this)
+      deleteStep: this.deleteStep.bind(this),
+      deleteStage: this.deleteStage.bind(this)
     }
   }
 
@@ -66,6 +67,25 @@ class App extends Component {
     const newListOfStages = this.state.listOfStages.slice();
     newListOfStages.push(newKey);
     this.setState({listOfStages: newListOfStages, stages: newStages});
+  }
+
+  deleteStage(stageKey) {
+    const newListOfStages = clone(this.state.listOfStages);
+    const newStages = clone(this.state.stages);
+    const newSteps = clone(this.state.steps);
+    const newElements = clone(this.state.elements);
+    newStages[stageKey].items.forEach((stepKey) => {
+      newSteps[stepKey].items.forEach((itemKey) => delete newElements[itemKey]);
+      delete newSteps[stepKey];
+    });
+    delete newStages[stageKey];
+    newListOfStages.splice(newListOfStages.indexOf(stageKey), 1);
+    this.setState({
+      listOfStages: newListOfStages,
+      stages: newStages,
+      steps: newSteps,
+      elements: newElements
+    });
   }
 
   addStep(data, stageKey) {

@@ -35,6 +35,7 @@ class Stage extends PureComponent {
     return (
       <section className={`stage ${isCollapsed ? `stage--collapsed` : ``} process__stage`}>
         <StageInfo
+          id={id}
           name={name}
           time={time}
           employee={employee}
