@@ -7,7 +7,8 @@
   flex-wrap: wrap;
   margin-bottom: 10px;
 
-  &--collapsed .step {
+  &--collapsed .step,
+  &--collapsed .add-item {
     display: none;
   }
 }
@@ -51,6 +52,25 @@
   }
 }
 
+.stage__edit {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #ffab38;
+  border-radius: 50%;
+  margin-right: 10px;
+  background-color: transparent;
+  background-image: url("../img/edit.svg");
+  background-size: 50%;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  &:hover,
+  &:focus {
+    opacity: 0.7;
+  }
+}
+
 .stage__delete {
   position: relative;
   width: 40px;
@@ -77,6 +97,11 @@
   &::after {
     transform: translateX(-50%) translateY(-50%) rotate(45deg);
   }
+
+  &:hover,
+  &:focus {
+    opacity: 0.7;
+  }
 }
 
 .stage__row {
@@ -102,7 +127,7 @@
   padding: 10px;
   border: 2px solid $color-chalk;
   border-radius: 30px;
-  cursor: move;
+  cursor: pointer;
 }
 
 .stage__time {

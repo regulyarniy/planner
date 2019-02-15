@@ -10,6 +10,7 @@ class Step extends Component {
     const addButton = (
       <button
         key={`add`}
+        title="Добавить элемент"
         className="element element--add step__element"
         onClick={() => history.push(`/add/${ElementType.ITEM_ROUTE}/${id}`)}
       />

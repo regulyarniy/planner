@@ -133,10 +133,10 @@ class Popup extends PureComponent {
       } else {
         switch (this.type) {
           case STAGE:
-            // this.context.addStage({name, employee, time});
+            this.context.editStage({name, employee, time}, this.props.match.params.parentKey);
             break;
           case STEP:
-            // this.context.addStep({name, employee, time}, this.props.match.params.parentKey);
+            this.context.editStep({name, employee, time}, this.props.match.params.parentKey);
             break;
           case ITEM:
             this.context.editItem({name, employee, time}, this.props.match.params.parentKey);

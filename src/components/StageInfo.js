@@ -1,10 +1,12 @@
 import React, {PureComponent} from "react";
 import Store from "../Store";
+import {ElementType} from "../constants";
+import {withRouter} from "react-router-dom";
 
 class StageInfo extends PureComponent {
   get elements() {
     const {steps} = this.context;
-    const {items} = this.props;
+    const {items, history} = this.props;
     return items.reduce((stepsList, stepKey) => stepsList.concat(
       [
         <button
@@ -12,6 +14,7 @@ class StageInfo extends PureComponent {
           className="element stage__element"
           type="button"
           title={steps[stepKey].name}
+          onClick={() => history.push(`/edit/${ElementType.STEP_ROUTE}/${stepKey}`)}
         >
           <span>{steps[stepKey].name}</span>
         </button>
@@ -20,7 +23,7 @@ class StageInfo extends PureComponent {
   }
 
   render() {
-    const {name, time, isCollapsed, onCollapse, id} = this.props;
+    const {name, time, isCollapsed, onCollapse, id, history} = this.props;
     return (
       <header className="stage__info">
         <button
@@ -28,6 +31,11 @@ class StageInfo extends PureComponent {
           type="button"
           title="Свернуть\Развернуть"
           onClick={onCollapse}
+        />
+        <button
+          className="stage__edit"
+          title="Редактировать этап"
+          onClick={() => history.push(`/edit/${ElementType.STAGE__ROUTE}/${id}`)}
         />
         <button
           className="stage__delete"
@@ -47,6 +55,6 @@ class StageInfo extends PureComponent {
   }
 }
 
-StageInfo.contextType = Store;
+export default withRouter(StageInfo);
 
-export default StageInfo;
+StageInfo.contextType = Store; // set context type after export because issue https://github.com/facebook/react/issues/14061

@@ -26,7 +26,9 @@ class App extends Component {
       deleteItem: this.deleteItem.bind(this),
       deleteStep: this.deleteStep.bind(this),
       deleteStage: this.deleteStage.bind(this),
-      editItem: this.editItem.bind(this)
+      editItem: this.editItem.bind(this),
+      editStep: this.editStep.bind(this),
+      editStage: this.editStage.bind(this)
     }
   }
 
@@ -89,6 +91,12 @@ class App extends Component {
     });
   }
 
+  editStage(data, stageKey) {
+    const newStages = clone(this.state.stages);
+    newStages[stageKey] = Object.assign(newStages[stageKey], data);
+    this.setState({stages: newStages});
+  }
+
   addStep(data, stageKey) {
     const newSteps = clone(this.state.steps);
     const newKey = uuid();
@@ -108,6 +116,12 @@ class App extends Component {
     delete newSteps[stepKey];
     newStages[stageKey].items.splice(newStages[stageKey].items.indexOf(stepKey), 1);
     this.setState({stages: newStages, steps: newSteps, elements: newElements});
+  }
+
+  editStep(data, stepKey) {
+    const newSteps = clone(this.state.steps);
+    newSteps[stepKey] = Object.assign(newSteps[stepKey], data);
+    this.setState({steps: newSteps});
   }
 
   addItem(data, stepKey) {
