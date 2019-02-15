@@ -1,4 +1,4 @@
-import React, {PureComponent} from "react";
+import React, {Fragment, PureComponent} from "react";
 import {ElementType} from "../constants";
 import Store from "../Store";
 
@@ -8,7 +8,7 @@ class Popup extends PureComponent {
     this.state = {
       name: ``,
       employee: ``,
-      time: ``
+      time: `00:00`
     };
     this.isAdd = this.props.match.url.indexOf(`add`) !== -1;
     this.handleClose = this.handleClose.bind(this);
@@ -84,16 +84,22 @@ class Popup extends PureComponent {
               id="popup__employee"
               onChange={(evt) => this.setState({employee: evt.target.value})}
             />
-            <label className="popup__label" htmlFor="popup__time">Время на выполнение(ЧЧ:ММ):</label>
-            <input
-              className="popup__input-text"
-              value={time}
-              required pattern="[0-9]{2}[:][0-9]{2}"
-              type="text"
-              placeholder="45:00"
-              id="popup__time"
-              onChange={(evt) => this.setState({time: evt.target.value})}
-            />
+            {this.type === ElementType.ITEM
+              ? (
+                <Fragment>
+                  <label className="popup__label" htmlFor="popup__time">Время на выполнение(ЧЧ:ММ):</label>
+                  <input
+                    className="popup__input-text"
+                    value={time}
+                    required pattern="[0-9]{2}[:][0-9]{2}"
+                    type="text"
+                    placeholder="45:00"
+                    id="popup__time"
+                    onChange={(evt) => this.setState({time: evt.target.value})}
+                  />
+                </Fragment>
+              )
+              : null}
             <div className="popup__buttons">
               <button className="popup__button popup__button--cancel" type="button" onClick={this.handleClose}>Отмена
               </button>

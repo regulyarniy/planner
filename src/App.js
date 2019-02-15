@@ -8,6 +8,7 @@ import {ElementType} from "./constants";
 import Store from "./Store";
 import uuid from "uuid/v4";
 import {clone} from "./helpers/utils";
+import {duration} from "moment";
 
 class App extends Component {
   constructor(props) {
@@ -63,13 +64,36 @@ class App extends Component {
     }
   }
 
+  calculateTime(stateChanges) {
+    const newState = Object.assign(clone(this.state), stateChanges);
+    const newStages = newState.stages;
+    const newSteps = newState.steps;
+    this.state.listOfStages.forEach((stageKey) => {
+      const stageTotalTime = duration(`0`);
+      if (newStages[stageKey].items.length > 0) {
+        newStages[stageKey].items.forEach((stepKey) => {
+          const stepTotalTime = duration(`0`);
+          if (newSteps[stepKey].items.length > 0) {
+            newSteps[stepKey].items.forEach((elementKey) => {
+              stepTotalTime.add(newState.elements[elementKey].time, String);
+            });
+            newSteps[stepKey].time = `${stepTotalTime.days()}:${stepTotalTime.hours()}:${stepTotalTime.minutes()}`;
+          }
+          stageTotalTime.add(stepTotalTime);
+        });
+      }
+      newStages[stageKey].time = `${stageTotalTime.days()}:${stageTotalTime.hours()}:${stageTotalTime.minutes()}`;
+    });
+    this.setState(newState);
+  }
+
   addStage(data) {
     const newStages = clone(this.state.stages);
     const newKey = uuid();
     newStages[newKey] = Object.assign({}, data, {items: []});
     const newListOfStages = this.state.listOfStages.slice();
     newListOfStages.push(newKey);
-    this.setState({listOfStages: newListOfStages, stages: newStages});
+    this.calculateTime({listOfStages: newListOfStages, stages: newStages});
   }
 
   deleteStage(stageKey) {
@@ -83,7 +107,7 @@ class App extends Component {
     });
     delete newStages[stageKey];
     newListOfStages.splice(newListOfStages.indexOf(stageKey), 1);
-    this.setState({
+    this.calculateTime({
       listOfStages: newListOfStages,
       stages: newStages,
       steps: newSteps,
@@ -94,7 +118,7 @@ class App extends Component {
   editStage(data, stageKey) {
     const newStages = clone(this.state.stages);
     newStages[stageKey] = Object.assign(newStages[stageKey], data);
-    this.setState({stages: newStages});
+    this.calculateTime({stages: newStages});
   }
 
   addStep(data, stageKey) {
@@ -105,7 +129,7 @@ class App extends Component {
     newItems.push(newKey);
     const newStages = clone(this.state.stages);
     newStages[stageKey].items = newItems;
-    this.setState({stages: newStages, steps: newSteps});
+    this.calculateTime({stages: newStages, steps: newSteps});
   }
 
   deleteStep(stageKey, stepKey) {
@@ -115,13 +139,13 @@ class App extends Component {
     newSteps[stepKey].items.forEach((item) => delete newElements[item]);
     delete newSteps[stepKey];
     newStages[stageKey].items.splice(newStages[stageKey].items.indexOf(stepKey), 1);
-    this.setState({stages: newStages, steps: newSteps, elements: newElements});
+    this.calculateTime({stages: newStages, steps: newSteps, elements: newElements});
   }
 
   editStep(data, stepKey) {
     const newSteps = clone(this.state.steps);
     newSteps[stepKey] = Object.assign(newSteps[stepKey], data);
-    this.setState({steps: newSteps});
+    this.calculateTime({steps: newSteps});
   }
 
   addItem(data, stepKey) {
@@ -132,7 +156,7 @@ class App extends Component {
     newItems.push(newKey);
     const newSteps = clone(this.state.steps);
     newSteps[stepKey].items = newItems;
-    this.setState({steps: newSteps, elements: newElements});
+    this.calculateTime({steps: newSteps, elements: newElements});
   }
 
   deleteItem(stepKey, itemKey) {
@@ -140,13 +164,13 @@ class App extends Component {
     const newElements = clone(this.state.elements);
     delete newElements[itemKey];
     newSteps[stepKey].items.splice(newSteps[stepKey].items.indexOf(itemKey), 1);
-    this.setState({steps: newSteps, elements: newElements});
+    this.calculateTime({steps: newSteps, elements: newElements});
   }
 
   editItem(data, itemKey) {
     const newElements = clone(this.state.elements);
     newElements[itemKey] = Object.assign(newElements[itemKey], data);
-    this.setState({elements: newElements});
+    this.calculateTime({elements: newElements});
   }
 
 }
