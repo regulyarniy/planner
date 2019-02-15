@@ -64,11 +64,11 @@ class App extends Component {
     }
   }
 
-  calculateTime(stateChanges) {
+  setNewStateWithTime(stateChanges) {
     const newState = Object.assign(clone(this.state), stateChanges);
     const newStages = newState.stages;
     const newSteps = newState.steps;
-    this.state.listOfStages.forEach((stageKey) => {
+    newState.listOfStages.forEach((stageKey) => {
       const stageTotalTime = duration(`0`);
       if (newStages[stageKey].items.length > 0) {
         newStages[stageKey].items.forEach((stepKey) => {
@@ -93,7 +93,7 @@ class App extends Component {
     newStages[newKey] = Object.assign({}, data, {items: []});
     const newListOfStages = this.state.listOfStages.slice();
     newListOfStages.push(newKey);
-    this.calculateTime({listOfStages: newListOfStages, stages: newStages});
+    this.setNewStateWithTime({listOfStages: newListOfStages, stages: newStages});
   }
 
   deleteStage(stageKey) {
@@ -103,11 +103,10 @@ class App extends Component {
     const newElements = clone(this.state.elements);
     newStages[stageKey].items.forEach((stepKey) => {
       newSteps[stepKey].items.forEach((itemKey) => delete newElements[itemKey]);
-      delete newSteps[stepKey];
     });
     delete newStages[stageKey];
     newListOfStages.splice(newListOfStages.indexOf(stageKey), 1);
-    this.calculateTime({
+    this.setNewStateWithTime({
       listOfStages: newListOfStages,
       stages: newStages,
       steps: newSteps,
@@ -118,7 +117,7 @@ class App extends Component {
   editStage(data, stageKey) {
     const newStages = clone(this.state.stages);
     newStages[stageKey] = Object.assign(newStages[stageKey], data);
-    this.calculateTime({stages: newStages});
+    this.setNewStateWithTime({stages: newStages});
   }
 
   addStep(data, stageKey) {
@@ -129,7 +128,7 @@ class App extends Component {
     newItems.push(newKey);
     const newStages = clone(this.state.stages);
     newStages[stageKey].items = newItems;
-    this.calculateTime({stages: newStages, steps: newSteps});
+    this.setNewStateWithTime({stages: newStages, steps: newSteps});
   }
 
   deleteStep(stageKey, stepKey) {
@@ -139,13 +138,13 @@ class App extends Component {
     newSteps[stepKey].items.forEach((item) => delete newElements[item]);
     delete newSteps[stepKey];
     newStages[stageKey].items.splice(newStages[stageKey].items.indexOf(stepKey), 1);
-    this.calculateTime({stages: newStages, steps: newSteps, elements: newElements});
+    this.setNewStateWithTime({stages: newStages, steps: newSteps, elements: newElements});
   }
 
   editStep(data, stepKey) {
     const newSteps = clone(this.state.steps);
     newSteps[stepKey] = Object.assign(newSteps[stepKey], data);
-    this.calculateTime({steps: newSteps});
+    this.setNewStateWithTime({steps: newSteps});
   }
 
   addItem(data, stepKey) {
@@ -156,7 +155,7 @@ class App extends Component {
     newItems.push(newKey);
     const newSteps = clone(this.state.steps);
     newSteps[stepKey].items = newItems;
-    this.calculateTime({steps: newSteps, elements: newElements});
+    this.setNewStateWithTime({steps: newSteps, elements: newElements});
   }
 
   deleteItem(stepKey, itemKey) {
@@ -164,13 +163,13 @@ class App extends Component {
     const newElements = clone(this.state.elements);
     delete newElements[itemKey];
     newSteps[stepKey].items.splice(newSteps[stepKey].items.indexOf(itemKey), 1);
-    this.calculateTime({steps: newSteps, elements: newElements});
+    this.setNewStateWithTime({steps: newSteps, elements: newElements});
   }
 
   editItem(data, itemKey) {
     const newElements = clone(this.state.elements);
     newElements[itemKey] = Object.assign(newElements[itemKey], data);
-    this.calculateTime({elements: newElements});
+    this.setNewStateWithTime({elements: newElements});
   }
 
 }
